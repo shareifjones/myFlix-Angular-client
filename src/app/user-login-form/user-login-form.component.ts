@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 // This import brings in the API calls we created in 6.2
-import { UserRegistrationService } from '../fetch-api-data.service';
+import { FetchApiDataService } from '../fetch-api-data.service';
 
 // This import is used to display notifications back to the user
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,9 +21,9 @@ export class UserLoginFormComponent implements OnInit {
   @Input() userData = { Username: '', Password: '' };
 
   constructor(
-    public fetchApiData: UserRegistrationService,
+    public fetchApiData: FetchApiDataService,
     public dialogRef: MatDialogRef<UserLoginFormComponent>,
-    public router: Router,
+    private router: Router,
     public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
@@ -31,11 +31,11 @@ export class UserLoginFormComponent implements OnInit {
 
   loginUser(): void {
     this.fetchApiData.userLogin(this.userData).subscribe((response) => {
-      console.log(response)
+      console.log(this.userData)
+      this.dialogRef.close()
       localStorage.setItem("user", JSON.stringify(response.user));
       localStorage.setItem("token", response.token);
-      this.dialogRef.close()
-      this.snackBar.open(`Login successful, Hello ${response.user.Username}`, 'OK', {
+      this.snackBar.open(`Login successful, Hello ${response.user}`, 'OK', {
         duration: 2000
       });
       this.router.navigate(['movies']);

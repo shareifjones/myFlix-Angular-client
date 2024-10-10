@@ -9,7 +9,7 @@ const apiUrl = 'https://shareif-flix-0b8cde79839e.herokuapp.com'
   providedIn: 'root'
 })
 
-export class UserRegistrationService {
+export class FetchApiDataService {
   // Inject the HttpClient module to the constructor params
   // This will provide HttpClient to the entire class, making it available via this.http
   constructor(private http: HttpClient) {
@@ -23,7 +23,8 @@ export class UserRegistrationService {
   }
 
   public userLogin(userDetails: any): Observable<any> {
-    return this.http.post(apiUrl + '/login', userDetails).pipe(
+    console.log(userDetails)
+    return this.http.post(apiUrl + `/login?Username=${userDetails.Username}&Password=${userDetails.Password}`, userDetails).pipe(
       catchError(this.handleError)
     );
   }
