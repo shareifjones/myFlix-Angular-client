@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 
 export class MovieCardComponent {
   movies: any[] = [];
+  genre: any;
+  director: any;
 
   constructor(
     public fetchApiData: FetchApiDataService,
@@ -32,4 +34,23 @@ export class MovieCardComponent {
       return this.movies;
     });
   }
+
+  showDirector(directorName: string): void {
+    this.fetchApiData.getDirector(directorName).subscribe((resp: any) => {
+      this.director = resp;
+      console.log('Director Details:', this.director);
+      return this.director;
+    });
+  }
+
+
+
+  redirectProfile(): void {
+    this.router.navigate(["profile"]);
+  }
+
+  logout(): void {
+    this.router.navigate(["welcome"]);
+  }
+
 }

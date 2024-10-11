@@ -1,4 +1,8 @@
 <div style="display: flex;">
+    <nav>
+        <button mat-button color="primary" (click)="redirectProfile()">Profile</button>
+        <button mat-button color="primary" (click)="logout()">Logout</button>
+    </nav>
     <mat-card *ngFor="let movie of movies;" style="flex: 1 1 auto;">
         <mat-card-header>
             <mat-card-title>{{movie.Title}}</mat-card-title>
@@ -9,7 +13,7 @@
             <button mat-button color="primary">
                 Genre
             </button>
-            <button mat-button color="primary">
+            <button mat-button color="primary" (click)="showDirector()">
                 Director
             </button>
             <button mat-button color="primary">
