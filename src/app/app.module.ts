@@ -20,6 +20,9 @@ import { UserLoginFormComponent } from './user-login-form/user-login-form.compon
 import { MovieCardComponent } from './movie-card/movie-card.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { DirectorInfoComponent } from './director-info/director-info.component';
+import { SynopsisComponent } from './synopsis/synopsis.component';
+import { GenreInfoComponent } from './genre-info/genre-info.component';
 
 
 const appRoutes: Routes = [
@@ -37,6 +40,9 @@ const appRoutes: Routes = [
     MovieCardComponent,
     WelcomePageComponent,
     UserProfileComponent,
+    DirectorInfoComponent,
+    SynopsisComponent,
+    GenreInfoComponent,
   ],
   imports: [
     BrowserModule,

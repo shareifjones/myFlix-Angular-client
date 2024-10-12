@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FetchApiDataService } from '../fetch-api-data.service'
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DirectorInfoComponent } from '../director-info/director-info.component';
+import { SynopsisComponent } from '../synopsis/synopsis.component';
+import { GenreInfoComponent } from '../genre-info/genre-info.component';
 
 
 @Component({
@@ -35,15 +38,59 @@ export class MovieCardComponent {
     });
   }
 
-  showDirector(directorName: string): void {
-    this.fetchApiData.getDirector(directorName).subscribe((resp: any) => {
-      this.director = resp;
-      console.log('Director Details:', this.director);
-      return this.director;
+  openDirectorDialog(movie: any): void {
+    this.dialog.open(DirectorInfoComponent, {
+      data: { directorName: movie.Director },
+      width: '600px',
     });
   }
 
+  openSynopsisDialog(movie: any): void {
+    this.dialog.open(SynopsisComponent, {
+      data: { movie }, // Pass the movie object to the dialog
+      width: '600px',
+    });
+  }
 
+  openGenreDialog(genreName: any): void {
+    this.dialog.open(GenreInfoComponent, {
+      data: { genreName }, // Pass the movie object to the dialog
+      width: '600px',
+    });
+  }
+
+  modifyFavoriteMovies(movie: any): void {
+    let user = JSON.parse(localStorage.getItem("user") || "");
+    let icon = document.getElementById(`${movie._id}-favorite-icon`);
+
+    if (user.favoriteMovies.includes(movie._id)) {
+      this.fetchApiData.deleteFavoriteMovie(user.id, movie.title).subscribe(res => {
+        icon?.setAttribute("fontIcon", "favorite_border");
+
+        console.log("del success")
+        console.log(res);
+        user.favoriteMovies = res.favoriteMovies;
+        localStorage.setItem("user", JSON.stringify(user));
+      }, err => {
+        console.error(err)
+      })
+    } else {
+      // icon?.setAttribute("fontIcon", "favorite");
+      // user.favoriteMovies.push(movie._id);
+      // addFavoriteMovie return unauth, debugging
+      this.fetchApiData.addFavoriteMovie(user.id, movie.title).subscribe(res => {
+        icon?.setAttribute("fontIcon", "favorite");
+
+        console.log("add success")
+        console.log(res);
+        user.favoriteMovies = res.favoriteMovies;
+        localStorage.setItem("user", JSON.stringify(user));
+      }, err => {
+        console.error(err)
+      })
+    }
+    localStorage.setItem("user", JSON.stringify(user));
+  }
 
   redirectProfile(): void {
     this.router.navigate(["profile"]);
