@@ -40,7 +40,7 @@ export class MovieCardComponent {
 
   openDirectorDialog(movie: any): void {
     this.dialog.open(DirectorInfoComponent, {
-      data: { directorName: movie.Director },
+      data: movie.Director,
       width: '600px',
     });
   }
@@ -52,9 +52,9 @@ export class MovieCardComponent {
     });
   }
 
-  openGenreDialog(genreName: any): void {
+  openGenreDialog(genre: any): void {
     this.dialog.open(GenreInfoComponent, {
-      data: { genreName }, // Pass the movie object to the dialog
+      data: genre, // Pass the movie object to the dialog
       width: '600px',
     });
   }
@@ -63,7 +63,8 @@ export class MovieCardComponent {
     let user = JSON.parse(localStorage.getItem("user") || "");
     let icon = document.getElementById(`${movie._id}-favorite-icon`);
 
-    if (user.favoriteMovies.includes(movie._id)) {
+
+    if (user.FavoriteMovies.includes(movie._id)) {
       this.fetchApiData.deleteFavoriteMovie(user.id, movie.title).subscribe(res => {
         icon?.setAttribute("fontIcon", "favorite_border");
 
@@ -78,7 +79,7 @@ export class MovieCardComponent {
       // icon?.setAttribute("fontIcon", "favorite");
       // user.favoriteMovies.push(movie._id);
       // addFavoriteMovie return unauth, debugging
-      this.fetchApiData.addFavoriteMovie(user.id, movie.title).subscribe(res => {
+      this.fetchApiData.addFavoriteMovie(movie._id, user.Username).subscribe(res => {
         icon?.setAttribute("fontIcon", "favorite");
 
         console.log("add success")

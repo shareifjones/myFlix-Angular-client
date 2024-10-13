@@ -29,7 +29,7 @@ export class DirectorInfoComponent implements OnInit {
 
   ngOnInit(): void {
     // Call method to fetch director details using directorName
-    this.getDirectorDetails(this.data.directorName);
+    this.getDirectorDetails(this.data.Name);
   }
   /**
    * Fetches details of a director from the API.
@@ -39,7 +39,6 @@ export class DirectorInfoComponent implements OnInit {
   getDirectorDetails(directorName: string): void {
     this.fetchApiService.getDirector(directorName).subscribe((resp: any) => {
       this.director = resp;
-      console.log('Director Details:', this.director);
       return this.director;
     });
   }

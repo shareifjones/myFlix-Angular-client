@@ -21,7 +21,7 @@ export class GenreInfoComponent {
     public dialogRef: MatDialogRef<GenreInfoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.movie = data.movie;
+    this.genre = data;
   }
   closeDialog(): void {
     this.dialogRef.close();

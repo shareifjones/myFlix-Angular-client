@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class UserProfileComponent implements OnInit {
   userData: any = {};
-  favoriteMovies: any[] = [];
+  FavoriteMovies: any[] = [];
 
   constructor(
 
@@ -19,11 +19,14 @@ export class UserProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getfavoriteMovies
-    this.getUser
+    // this.getFavoriteMovies()
+    this.getUser()
   }
   getUser(): void {
-    this.fetchApiData.getUserByUsername(this.userData.Username).subscribe((res: any) => {
+    let user = JSON.parse(localStorage.getItem("user") || "");
+    console.log("user", user)
+    this.fetchApiData.getUserByUsername(user.Username).subscribe((res: any) => {
+      console.log("response", res)
       this.userData = {
         ...res,
         id: res._id,
@@ -31,7 +34,7 @@ export class UserProfileComponent implements OnInit {
         token: this.userData.Token
       };
       localStorage.setItem("user", JSON.stringify(this.userData));
-      this.getfavoriteMovies();
+      this.getFavoriteMovies();
     })
   }
   updateUser(): void {
@@ -43,17 +46,19 @@ export class UserProfileComponent implements OnInit {
         token: this.userData.token
       };
       localStorage.setItem("user", JSON.stringify(this.userData));
-      this.getfavoriteMovies();
+      this.getFavoriteMovies();
     }, (err: any) => {
       console.error(err)
     })
   }
 
-  getfavoriteMovies(): void {
+  getFavoriteMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((res: any) => {
-      this.favoriteMovies = res.filter((movie: any) => {
-        return this.userData.favoriteMovies.includes(movie._id)
+      this.FavoriteMovies = res.filter((movie: any) => {
+        return this.userData.FavoriteMovies.includes(movie._id)
       })
+
+      console.log("favorite movie", this.FavoriteMovies)
     }, (err: any) => {
       console.error(err);
     });
@@ -61,8 +66,8 @@ export class UserProfileComponent implements OnInit {
 
   removeFromFavorite(movie: any): void {
     this.fetchApiData.deleteFavoriteMovie(this.userData.id, movie.Title).subscribe((res: any) => {
-      this.userData.favoriteMovies = res.favoriteMovies;
-      this.getfavoriteMovies();
+      this.userData.FavoriteMovies = res.FavoriteMovies;
+      this.getFavoriteMovies();
     }, (err: any) => {
       console.error(err)
     })
