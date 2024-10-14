@@ -15,6 +15,12 @@ export class FetchApiDataService {
   constructor(private http: HttpClient) {
   }
   // Making the api call for the user registration endpoint
+
+  /**
+     * create new user
+     * @param {Object} userDetails must include username, password and password. Optional: birthday
+     * @returns 
+     */
   public userRegistration(userDetails: any): Observable<any> {
     console.log(userDetails);
     return this.http.post(apiUrl + '/users', userDetails).pipe(
@@ -22,6 +28,11 @@ export class FetchApiDataService {
     );
   }
 
+  /**
+       * login
+       * @param {Object} userDetails must include username and password
+       * @returns 
+       */
   public userLogin(userDetails: any): Observable<any> {
     console.log(userDetails)
     return this.http.post(apiUrl + `/login?Username=${userDetails.Username}&Password=${userDetails.Password}`, userDetails).pipe(
@@ -29,6 +40,11 @@ export class FetchApiDataService {
     );
   }
 
+
+  /**
+     * get all movies
+     * @returns if token is false, status 401 & text "unauthorized", else return array of movie object
+     */
   public getAllMovies(): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + '/movies', {
@@ -41,6 +57,8 @@ export class FetchApiDataService {
       catchError(this.handleError)
     );
   }
+
+
   public getFavoriteMovies(Username: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + `/users/${Username}/movies/favorites`, {
@@ -54,6 +72,11 @@ export class FetchApiDataService {
     );
   }
 
+  /**
+     * get movie by title
+     * @param {string} title Movie's title
+     * @returns if token is false, status 401 & text "unauthorized". if movie exists, status 200 & movie object. if movie doesn't exist, status 400 & text "No such movie"
+     */
   public getMovie(title: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + `/movies/${title}`, {
@@ -67,6 +90,11 @@ export class FetchApiDataService {
     );
   }
 
+  /**
+   * get genre by name
+   * @param {string} genreName 
+   * @returns 
+   */
   public getGenre(genreName: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + `/movies/genre/${genreName}`, {
@@ -80,6 +108,11 @@ export class FetchApiDataService {
     );
   }
 
+  /**
+     * get user with username
+     * @param {string} username
+     * @returns if token is false, status 401 & text "unauthorized". if user exists, status 200 & user object. if user doesn't exist, status 400
+     */
   public getUserByUsername(Username: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + `/users/${Username}`, {
@@ -93,6 +126,12 @@ export class FetchApiDataService {
     );
   }
 
+
+  /**
+      * get director with name
+      * @param {string} directorName 
+      * @returns if token is false, status 401 & text "unauthorized". if director exists, status 200 & director object. if director doesn't exist, status 400 & text "No such director"
+      */
   public getDirector(directorName: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + `/movies/directors/${directorName}`, {
@@ -106,6 +145,12 @@ export class FetchApiDataService {
     );
   }
 
+  /**
+     * change user's details
+     * @param userDetails must include all the fields of user object
+     * @returns if token is false, status 401 & text "unauthorized". if update user's details success, status 200 & user object.
+     */
+
   public editUser(userDetails: any): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.put(apiUrl + `/users/${userDetails.Username}`, userDetails,
@@ -118,6 +163,13 @@ export class FetchApiDataService {
       );
   }
 
+
+  /**
+     * add movie to user's favorite list
+     * @param {string} Username 
+     * @param {string} MovieID movie's id
+     * @returns if token is false, status 401 & text "unauthorized". if add movie success, status 200 & user object. if movie doesn't exist, status 400 & text "No such movie"
+     */
   public addFavoriteMovie(MovieID: string, Username: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.post(apiUrl + `/users/${Username}/movies/${MovieID}`, {}, {
@@ -131,6 +183,13 @@ export class FetchApiDataService {
     );
   }
 
+
+  /**
+     * delete a movie from user's favorite list
+    * @param {string} Username 
+     * @param {string} MovieID movie's id
+     * @returns if token is false, status 401 & text "unauthorized". if delete movie success, status 200 & user object.
+     */
   public deleteFavoriteMovie(MovieID: string, Username: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.delete(apiUrl + `/users/${Username}/movies/${MovieID}`, {
@@ -144,7 +203,11 @@ export class FetchApiDataService {
     );
   }
 
-
+  /**
+       * delete user
+       * @param userID 
+       * @returns if token is false, status 401 & text "unauthorized". if delete user success, status 200 & text "${username} was deleted"
+       */
   public deleteUser(Username: string): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.delete(apiUrl + `/users/${Username}`, {

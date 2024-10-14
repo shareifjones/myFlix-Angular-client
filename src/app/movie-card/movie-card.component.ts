@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { DirectorInfoComponent } from '../director-info/director-info.component';
 import { SynopsisComponent } from '../synopsis/synopsis.component';
 import { GenreInfoComponent } from '../genre-info/genre-info.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class MovieCardComponent {
   constructor(
     public fetchApiData: FetchApiDataService,
     public router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
 
   ) { }
 
@@ -70,7 +72,7 @@ export class MovieCardComponent {
 
         console.log("del success")
         console.log(res);
-        user.favoriteMovies = res.favoriteMovies;
+        user.FavoriteMovies = res.FavoriteMovies;
         localStorage.setItem("user", JSON.stringify(user));
       }, err => {
         console.error(err)
@@ -81,10 +83,12 @@ export class MovieCardComponent {
       // addFavoriteMovie return unauth, debugging
       this.fetchApiData.addFavoriteMovie(movie._id, user.Username).subscribe(res => {
         icon?.setAttribute("fontIcon", "favorite");
-
+        // this.snackBar.open('User registration successful', 'OK', {
+        //   duration: 2000
+        // })
         console.log("add success")
         console.log(res);
-        user.favoriteMovies = res.favoriteMovies;
+        user.FavoriteMovies = res.FavoriteMovies;
         localStorage.setItem("user", JSON.stringify(user));
       }, err => {
         console.error(err)

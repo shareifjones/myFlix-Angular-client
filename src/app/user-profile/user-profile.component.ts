@@ -11,6 +11,7 @@ export class UserProfileComponent implements OnInit {
   userData: any = {};
   FavoriteMovies: any[] = [];
 
+
   constructor(
 
     public fetchApiData: FetchApiDataService,
@@ -33,6 +34,7 @@ export class UserProfileComponent implements OnInit {
         password: this.userData.Password,
         token: this.userData.Token
       };
+
       localStorage.setItem("user", JSON.stringify(this.userData));
       this.getFavoriteMovies();
     })
