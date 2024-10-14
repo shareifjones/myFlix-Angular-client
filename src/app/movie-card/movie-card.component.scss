@@ -1,0 +1,9 @@
+.heart {
+    background-color: pink;
+    border: none;
+}
+
+.heart:focus {
+    background-color: red;
+    border: none;
+}

@@ -19,8 +19,11 @@
             <button mat-button color="primary" (click)="openSynopsisDialog(movie)">
                 Synopsis
             </button>
-            <mat-icon fonticon="{{ movie.isFavorite ? 'favorite' : 'favorite_border'}}" id="{{movie._id}}-favorite-icon"
-                (click)="modifyFavoriteMovies(movie)">favorite_border</mat-icon>
+            <button class="heart">
+
+                <mat-icon fonticon="{{ movie.isFavorite ? 'favorite' : 'favorite_border'}}"
+                    id="{{movie._id}}-favorite-icon" (click)="modifyFavoriteMovies(movie)">favorite_border</mat-icon>
+            </button>
         </mat-card-actions>
     </mat-card>
 </div>

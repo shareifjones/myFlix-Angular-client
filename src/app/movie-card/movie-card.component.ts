@@ -68,10 +68,8 @@ export class MovieCardComponent {
 
     if (user.FavoriteMovies.includes(movie._id)) {
       this.fetchApiData.deleteFavoriteMovie(user.id, movie.title).subscribe(res => {
-        icon?.setAttribute("fontIcon", "favorite_border");
-
-        console.log("del success")
-        console.log(res);
+        icon?.setAttribute("fontIcon", "favorite_border")
+        console.log("deleted", res);
         user.FavoriteMovies = res.FavoriteMovies;
         localStorage.setItem("user", JSON.stringify(user));
       }, err => {
@@ -83,11 +81,7 @@ export class MovieCardComponent {
       // addFavoriteMovie return unauth, debugging
       this.fetchApiData.addFavoriteMovie(movie._id, user.Username).subscribe(res => {
         icon?.setAttribute("fontIcon", "favorite");
-        // this.snackBar.open('User registration successful', 'OK', {
-        //   duration: 2000
-        // })
-        console.log("add success")
-        console.log(res);
+        console.log("added", res);
         user.FavoriteMovies = res.FavoriteMovies;
         localStorage.setItem("user", JSON.stringify(user));
       }, err => {

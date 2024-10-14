@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,7 +16,8 @@ export class UserProfileComponent implements OnInit {
   constructor(
 
     public fetchApiData: FetchApiDataService,
-    public router: Router
+    public router: Router,
+    public snackBar: MatSnackBar
 
   ) { }
 
@@ -67,7 +69,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   removeFromFavorite(movie: any): void {
-    this.fetchApiData.deleteFavoriteMovie(this.userData.id, movie.Title).subscribe((res: any) => {
+    this.fetchApiData.deleteFavoriteMovie(movie._id, this.userData.Username).subscribe((res: any) => {
       this.userData.FavoriteMovies = res.FavoriteMovies;
       this.getFavoriteMovies();
     }, (err: any) => {
