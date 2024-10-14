@@ -20,6 +20,7 @@ export class MovieCardComponent {
   genre: any;
   director: any;
 
+
   constructor(
     public fetchApiData: FetchApiDataService,
     public router: Router,
@@ -61,13 +62,19 @@ export class MovieCardComponent {
     });
   }
 
+  checkIsFavorite(movieId: string) {
+    let user = JSON.parse(localStorage.getItem("user") || "");
+    return user?.FavoriteMovies?.includes(movieId);
+  }
+
   modifyFavoriteMovies(movie: any): void {
     let user = JSON.parse(localStorage.getItem("user") || "");
     let icon = document.getElementById(`${movie._id}-favorite-icon`);
 
 
-    if (user.FavoriteMovies.includes(movie._id)) {
-      this.fetchApiData.deleteFavoriteMovie(user.id, movie.title).subscribe(res => {
+    console.log("movie", movie)
+    if (user?.FavoriteMovies?.includes(movie._id)) {
+      this.fetchApiData.deleteFavoriteMovie(movie._id, user.Username).subscribe(res => {
         icon?.setAttribute("fontIcon", "favorite_border")
         console.log("deleted", res);
         user.FavoriteMovies = res.FavoriteMovies;

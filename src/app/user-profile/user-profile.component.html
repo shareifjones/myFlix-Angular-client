@@ -43,7 +43,7 @@
                 <mat-card-title>{{movie.title}}</mat-card-title>
                 <mat-card-subtitle>Directed by: {{movie.Director.Name}}</mat-card-subtitle>
             </mat-card-header>
-            <img src={{movie.imageURL}} alt={{movie.Title}} />
+            <img src={{movie.ImageURL}} alt={{movie.Title}} style="width: 300px; height: 400px;" />
             <mat-card-actions>
                 <button mat-raised-button (click)="removeFromFavorite(movie)" color="primary"
                     style="margin-right: 10px;">
