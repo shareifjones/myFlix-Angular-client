@@ -56,6 +56,9 @@ export class UserProfileComponent implements OnInit {
       };
       localStorage.setItem("user", JSON.stringify(this.userData));
       this.getFavoriteMovies();
+      this.snackBar.open('Profile Updated!', 'OK', {
+        duration: 2000
+      })
     }, (err: any) => {
       console.error(err)
     })
@@ -77,6 +80,9 @@ export class UserProfileComponent implements OnInit {
     this.fetchApiData.deleteFavoriteMovie(movie._id, this.userData.Username).subscribe((res: any) => {
       this.userData.FavoriteMovies = res.FavoriteMovies;
       this.getFavoriteMovies();
+      this.snackBar.open(`${movie.Title} has been deleted from your Favorites List`, 'OK', {
+        duration: 2000
+      })
     }, (err: any) => {
       console.error(err)
     })

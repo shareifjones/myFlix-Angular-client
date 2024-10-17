@@ -70,8 +70,6 @@ export class MovieCardComponent {
   modifyFavoriteMovies(movie: any): void {
     let user = JSON.parse(localStorage.getItem("user") || "");
     let icon = document.getElementById(`${movie._id}-favorite-icon`);
-
-
     console.log("movie", movie)
     if (user?.FavoriteMovies?.includes(movie._id)) {
       this.fetchApiData.deleteFavoriteMovie(movie._id, user.Username).subscribe(res => {
@@ -79,6 +77,9 @@ export class MovieCardComponent {
         console.log("deleted", res);
         user.FavoriteMovies = res.FavoriteMovies;
         localStorage.setItem("user", JSON.stringify(user));
+        this.snackBar.open(`${movie.Title} has been deleted from your Favorites List`, 'OK', {
+          duration: 2000
+        })
       }, err => {
         console.error(err)
       })
@@ -91,6 +92,9 @@ export class MovieCardComponent {
         console.log("added", res);
         user.FavoriteMovies = res.FavoriteMovies;
         localStorage.setItem("user", JSON.stringify(user));
+        this.snackBar.open(`${movie.Title} has been added to your Favorites List`, 'OK', {
+          duration: 2000
+        })
       }, err => {
         console.error(err)
       })
