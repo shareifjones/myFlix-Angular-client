@@ -27,9 +27,9 @@ export class UserProfileComponent implements OnInit {
   }
   getUser(): void {
     let user = JSON.parse(localStorage.getItem("user") || "");
-    console.log("user", user)
+    // console.log("user", user)
     this.fetchApiData.getUserByUsername(user.Username).subscribe((res: any) => {
-      console.log("response", res)
+      // console.log("response", res)
       this.userData = {
         ...res,
         id: res._id,
@@ -41,13 +41,18 @@ export class UserProfileComponent implements OnInit {
       this.getFavoriteMovies();
     })
   }
+
+
   updateUser(): void {
-    this.fetchApiData.editUser(this.userData).subscribe((res: any) => {
+    let user = JSON.parse(localStorage.getItem("user") || "");
+    this.fetchApiData.editUser(user.Username, this.userData).subscribe((res: any) => {
+      const passwordText = this.userData.Password
+      res.Password = passwordText
       this.userData = {
         ...res,
         id: res._id,
-        password: this.userData.password,
-        token: this.userData.token
+        password: passwordText,
+        token: this.userData.Token
       };
       localStorage.setItem("user", JSON.stringify(this.userData));
       this.getFavoriteMovies();
@@ -62,7 +67,7 @@ export class UserProfileComponent implements OnInit {
         return this.userData.FavoriteMovies.includes(movie._id)
       })
 
-      console.log("favorite movie", this.FavoriteMovies)
+      // console.log("favorite movie", this.FavoriteMovies)
     }, (err: any) => {
       console.error(err);
     });

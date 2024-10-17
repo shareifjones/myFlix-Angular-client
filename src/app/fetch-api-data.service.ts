@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/internal/operators';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 const apiUrl = 'https://shareif-flix-0b8cde79839e.herokuapp.com'
+// const apiUrl = 'http://Localhost:8080'
 @Injectable({
   providedIn: 'root'
 })
@@ -151,12 +152,14 @@ export class FetchApiDataService {
      * @returns if token is false, status 401 & text "unauthorized". if update user's details success, status 200 & user object.
      */
 
-  public editUser(userDetails: any): Observable<any> {
+  public editUser(Username: string, userDetails: any): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.put(apiUrl + `/users/${userDetails.Username}`, userDetails,
+    return this.http.put(apiUrl + `/users/${Username}`,
+      userDetails,
       {
         headers: new HttpHeaders({
-          Authorization: 'Bearer' + token,
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json'
         })
       }).pipe(
         map(this.extractResponseData), catchError(this.handleError)
